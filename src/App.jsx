@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import lanBg from "./assets/images/swaram_banner.jpg";
+import lanBg from "./assets/images/BG5.jpg"; //BG.jpeg.jpg;
+import { Menu, X } from "lucide-react"; // for hamburger menu icons
 import { motion, useAnimation, useInView } from "framer-motion";
 import {
   ArrowRight,
@@ -120,6 +121,7 @@ const loadScript = (src) =>
   });
 
 // ======= Layout Components =======
+
 const Container = ({ children, className = "" }) => (
   <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ${className}`}>
     {children}
@@ -143,17 +145,58 @@ const useSolidNav = () => {
   return solid;
 };
 
+const links = [
+  { href: "#home", label: "Home" },
+  { href: "#about", label: "About" },
+  { href: "#how", label: "How It Works" },
+  { href: "#rewards", label: "Rewards" },
+  { href: "#rules", label: "Rules" },
+  { href: "#faq", label: "FAQ" },
+  { href: "#contact", label: "Contact" },
+];
+
 const Navbar = () => {
   const solid = useSolidNav();
-  const links = [
-    { href: "#home", label: "Home" },
-    { href: "#about", label: "About" },
-    { href: "#how", label: "How It Works" },
-    { href: "#rewards", label: "Rewards" },
-    { href: "#rules", label: "Rules" },
-    { href: "#faq", label: "FAQ" },
-    { href: "#contact", label: "Contact" },
-  ];
+  const [open, setOpen] = useState(false);
+  const [active, setActive] = useState("#home");
+
+  useEffect(() => {
+    const sections = document.querySelectorAll("section[id]");
+
+    const updateActive = () => {
+      let current = "#home"; // default
+      sections.forEach((section) => {
+        const top = section.getBoundingClientRect().top;
+        if (top <= window.innerHeight / 2) {
+          current = `#${section.id}`;
+        }
+      });
+      setActive(current);
+    };
+
+    updateActive(); // ✅ check on page load
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActive(`#${entry.target.id}`);
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    sections.forEach((sec) => observer.observe(sec));
+
+    window.addEventListener("scroll", updateActive); // also update on scroll
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", updateActive);
+    };
+  }, []);
+
   return (
     <div
       className={`fixed top-0 inset-x-0 z-50 transition-colors ${
@@ -162,43 +205,77 @@ const Navbar = () => {
           : "bg-transparent"
       }`}
     >
-      <Container className="flex items-center justify-between gap-4 h-16">
-        <a href="#home" className="flex items-center gap-3 group">
-          {/* <div className="w-9 h-9 rounded-full bg-gradient-to-br from-red-600 to-cyan-400 grid place-items-center shadow-lg shadow-red-900/40">
-            <PlayCircle size={22} />
-          </div>
-          <span
-            className="text-lg font-semibold tracking-wide"
-            style={{ color: BRAND.text }}
-          >
-            Swara Media
-          </span> */}
+      <Container className="flex items-center justify-between h-16 sm:h-20">
+        {/* Logo */}
+        <a href="#home" className="flex items-center gap-3">
           <img
-            src="/swaram_logo.png"
+            src="/sm-w.png"
             alt="Swara Media"
-            className="h-10 w-auto"
+            className="h-12 sm:h-14 md:h-16 lg:h-20 w-auto md:p-3"
           />
         </a>
-        <nav className="hidden md:flex items-center gap-6 text-lg">
+
+        {/* Desktop nav (md+) */}
+        <nav className="hidden md:flex items-center gap-4 md:gap-4 lg:gap-6 text-base lg:text-lg">
           {links.map((l) => (
             <a
               key={l.href}
               href={l.href}
-              className="text-white/80 hover:text-white transition-colors"
+              className={`transition-colors ${
+                active === l.href
+                  ? "text-red-500"
+                  : "text-white/80 hover:text-white"
+              }`}
             >
               {l.label}
             </a>
           ))}
         </nav>
+
+        {/* Register button (all devices) */}
         <a
           href="#register"
-          className="inline-flex items-center gap-2 rounded-2xl px-4 py-2 text-sm font-semibold shadow disabled:opacity-50"
+          className="hidden sm:inline-flex items-center gap-2 rounded-xl sm:rounded-2xl px-3 sm:px-4 md:px-6 py-1.5 sm:py-2 md:py-3 text-xs sm:text-sm md:text-base font-semibold shadow"
           style={{ background: BRAND.primary, color: "white" }}
         >
-          Register Now (₹1999)
-          <ArrowRight size={16} />
+          Register Now
         </a>
+
+        {/* Mobile menu button (md:hidden) */}
+        <button
+          className="md:hidden text-white p-2"
+          onClick={() => setOpen(!open)}
+        >
+          {open ? <X size={28} /> : <Menu size={28} />}
+        </button>
       </Container>
+
+      {/* Mobile dropdown menu */}
+      {open && (
+        <div className="md:hidden bg-black/90 backdrop-blur border-t border-white/10">
+          <nav className="flex flex-col items-center gap-4 py-6 text-lg">
+            {links.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                className="text-white/80 hover:text-white transition-colors"
+                onClick={() => setOpen(false)}
+              >
+                {l.label}
+              </a>
+            ))}
+            {/* Register button inside mobile menu */}
+            <a
+              href="#register"
+              className="mt-2 inline-flex items-center gap-2 rounded-xl px-5 py-2 text-sm font-semibold shadow"
+              style={{ background: BRAND.primary, color: "white" }}
+              onClick={() => setOpen(false)}
+            >
+              Register Now
+            </a>
+          </nav>
+        </div>
+      )}
     </div>
   );
 };
@@ -207,17 +284,20 @@ const Navbar = () => {
 const Hero = () => {
   const typed = useTyping(["Act.", "Express.", "Shine."], 110, 900);
   const { days, hours, minutes, seconds } = useCountdown(REG_DEADLINE);
+
   return (
     <div
       id="home"
-      className="relative min-h-[92vh] flex items-center justify-center text-center px-6"
+      className="relative min-h-[98vh] flex items-center justify-center text-center px-4 sm:px-6 md:px-8"
       style={{
+        width: "100%",
+        minHeight: "100vh",
         background: `
-      radial-gradient(1200px 600px at 70% -10%, ${BRAND.secondary}22, transparent),
-      radial-gradient(800px 400px at 10% 110%, ${BRAND.primary}22, transparent),
-      url(${lanBg})
-    `,
-        backgroundSize: "cover",
+    radial-gradient(1400px 600px at 70% -10%, ${BRAND.secondary}22, transparent),
+    radial-gradient(860px 400px at 10% 110%, ${BRAND.primary}22, transparent),
+    url(${lanBg})
+  `,
+        backgroundSize: "100% 100%", // stretches full width & height
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
       }}
@@ -229,20 +309,23 @@ const Hero = () => {
       </div>
 
       <Container>
-        <div className="text-center md:p-24 bg-gray-700/10 rounded-3xl border border-white/5 ">
+        <div className="text-center  mt-10 p-2 md:p-4">
+          {/* Title */}
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white"
+            className="text-xl sm:text-2xl md:text-3xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight text-white"
           >
-            🎬 Swara Media Global short film Contest 2025
+            🎬 Swara Media Global Short Film Contest 2025
           </motion.h1>
+
+          {/* Subtitle */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1, duration: 0.6 }}
-            className="mt-4 text-base sm:text-xl text-white/80 max-w-3xl mx-auto"
+            className="mt-3 sm:mt-4 text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-white/80 max-w-3xl mx-auto leading-relaxed"
           >
             Show your acting, storytelling, or creative skills in a{" "}
             <span className="font-semibold text-white">
@@ -256,24 +339,24 @@ const Hero = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
-            className="mt-6 text-xl sm:text-4xl font-semibold h-10"
+            className="mt-6 text-lg sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-semibold h-8 sm:h-10 md:h-12"
             style={{ color: BRAND.secondary }}
           >
             {typed}
           </motion.div>
 
           {/* CTA buttons */}
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
             <a
               href="#register"
-              className="px-6 py-3 rounded-2xl font-semibold shadow-xl"
+              className="px-4 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 rounded-xl sm:rounded-2xl font-semibold shadow-xl text-sm sm:text-base md:text-lg"
               style={{ background: BRAND.primary, color: "white" }}
             >
               Register Now – ₹1999
             </a>
             <a
               href="#rules"
-              className="px-6 py-3 rounded-2xl font-semibold border"
+              className="px-4 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 rounded-xl sm:rounded-2xl font-semibold border text-sm sm:text-base md:text-lg"
               style={{ borderColor: BRAND.secondary, color: BRAND.secondary }}
             >
               View Contest Rules
@@ -282,8 +365,7 @@ const Hero = () => {
 
           {/* Countdown */}
           <div
-            className="mt-10 inline-flex items-center gap-3 rounded-2xl px-6 py-2 border text-lg"
-            // style={{ borderColor: "#ffffff22", color: BRAND.text }}
+            className="mt-8 sm:mt-10 inline-flex flex-wrap items-center justify-center gap-2 sm:gap-3 rounded-xl sm:rounded-2xl px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base md:text-lg"
             style={{ background: BRAND.primary, color: "white" }}
           >
             <Clock size={16} />
@@ -295,9 +377,9 @@ const Hero = () => {
         </div>
       </Container>
 
-      {/* bottom glow */}
+      {/* Bottom glow */}
       <div
-        className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 w-[90%] h-24 blur-3xl"
+        className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 w-[95%] sm:w-[90%] h-20 sm:h-24 blur-2xl sm:blur-3xl"
         style={{ background: `${BRAND.primary}33` }}
       />
     </div>
@@ -308,15 +390,17 @@ const Hero = () => {
 const About = () => (
   <Section
     id="about"
-    className="bg-[linear-gradient(180deg,rgba(255,255,255,0.03)_0%,rgba(255,255,255,0.0)_100%)]"
+    className="bg-[linear-gradient(180deg,rgba(255,255,255,0.03)_0%,rgba(255,255,255,0)_100%)] py-12 sm:py-16 md:py-20 lg:py-28"
   >
     <Container>
-      <div className="grid md:grid-cols-2 gap-10 items-center">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 lg:gap-16 items-center">
+        {/* Left Text Content */}
         <div>
-          <h2 className="text-2xl sm:text-3xl font-bold text-white">
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white leading-snug">
             About the Contest
           </h2>
-          <p className="mt-4 text-white/80 leading-relaxed">
+
+          <p className="mt-4 text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-white/80 leading-relaxed">
             Swara Media is launching a first-of-its-kind global talent hunt for
             Telugu-speaking creators. Participants will submit a
             <span className="font-semibold text-white">
@@ -327,17 +411,19 @@ const About = () => (
             act in Swara Media Web Series and become part of our creative
             family.
           </p>
-          <p className="mt-4 text-white/80">
+
+          <p className="mt-4 text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-white/80 leading-relaxed">
             <span className="font-semibold" style={{ color: BRAND.secondary }}>
               This is not just a contest
             </span>{" "}
             — it’s your gateway to the entertainment industry!
           </p>
         </div>
-        <div className="relative w-[300px] md:w-[360px] aspect-[9/16] rounded-2xl overflow-hidden shadow-2xl mx-auto">
+
+        {/* Right Video Box */}
+        <div className="relative w-[240px] sm:w-[280px] md:w-[240px] lg:w-[280px] xl:w-[340px] aspect-[9/16] rounded-2xl overflow-hidden shadow-2xl mx-auto">
           <iframe
             className="absolute inset-0 w-full h-full"
-            // https://www.youtube.com/embed/dQw4w9WgXcQ
             src="https://www.youtube.com/embed/oL4t2seryYM"
             title="Swara Media Shorts"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -354,27 +440,34 @@ const Step = ({ icon: Icon, title, text, index }) => {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
   const controls = useAnimation();
+
   useEffect(() => {
     if (inView) controls.start({ opacity: 1, y: 0 });
   }, [inView]);
+
   return (
     <motion.div
       ref={ref}
       initial={{ opacity: 0, y: 20 }}
       animate={controls}
       transition={{ duration: 0.4, delay: index * 0.05 }}
-      className="rounded-3xl p-6 bg-[rgba(255,255,255,0.03)] border border-white/10 backdrop-blur"
+      className="rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-7 
+                 bg-[rgba(255,255,255,0.03)] border border-white/10 backdrop-blur flex flex-col items-center justify-items-center"
     >
-      <div className="flex items-center gap-3">
+      <div className="flex flex-col items-center justify-items-center gap-2 sm:gap-3">
         <div
-          className="w-10 h-10 rounded-2xl grid place-items-center"
+          className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-xl sm:rounded-2xl grid place-items-center"
           style={{ background: `${BRAND.secondary}11`, color: BRAND.secondary }}
         >
-          <Icon size={20} />
+          <Icon size={18} className="sm:size-6 md:size-8" />
         </div>
-        <h3 className="font-semibold text-white">{title}</h3>
+        <h3 className="text-sm sm:text-base md:text-lg lg:text-xl font-semibold text-white text-center">
+          {title}
+        </h3>
       </div>
-      <p className="mt-3 text-white/70 text-sm">{text}</p>
+      <p className="mt-2 sm:mt-3 text-xs sm:text-sm md:text-base text-white/70 text-center">
+        {text}
+      </p>
     </motion.div>
   );
 };
@@ -407,16 +500,19 @@ const HowItWorks = () => {
       text: "Winners announced in grand finale.",
     },
   ];
+
   return (
     <Section id="how">
       <Container>
-        <h2 className="text-2xl sm:text-3xl font-bold text-white text-center">
+        <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white text-center">
           How It Works
         </h2>
-        <p className="mt-2 text-white/70 text-center">
+        <p className="mt-2 text-sm sm:text-base md:text-lg text-white/70 text-center">
           Five simple steps to the spotlight.
         </p>
-        <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
+
+        {/* 🔹 Responsive Grid */}
+        <div className="mt-8 sm:mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 md:gap-8">
           {steps.map((s, i) => (
             <Step key={i} {...s} index={i} />
           ))}
@@ -429,17 +525,23 @@ const HowItWorks = () => {
 // ======= REWARDS =======
 const Rewards = () => (
   <Section id="rewards" className="relative">
+    {/* 🔹 Background Gradient */}
     <div
       className="absolute inset-0 -z-10 opacity-30"
       style={{
-        background: `radial-gradient(600px 300px at 20% 30%, ${BRAND.gold}22, transparent), radial-gradient(700px 400px at 80% 70%, ${BRAND.secondary}22, transparent)`,
+        background: `radial-gradient(600px 300px at 20% 30%, ${BRAND.gold}22, transparent),
+                     radial-gradient(700px 400px at 80% 70%, ${BRAND.secondary}22, transparent)`,
       }}
     />
+
     <Container>
-      <h2 className="text-2xl sm:text-3xl font-bold text-white text-center">
+      {/* 🔹 Heading */}
+      <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white text-center">
         Rewards & Opportunities
       </h2>
-      <div className="mt-10 grid lg:grid-cols-3 gap-6">
+
+      {/* 🔹 Responsive Grid */}
+      <div className="mt-8 sm:mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
         {[
           {
             title: "Top 3 Winners",
@@ -460,20 +562,27 @@ const Rewards = () => (
           <motion.div
             key={i}
             whileHover={{ y: -6 }}
-            className="rounded-3xl p-6 border border-white/10 bg-[rgba(255,255,255,0.03)] backdrop-blur shadow-xl"
+            className="rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 border border-white/10 
+                       bg-[rgba(255,255,255,0.03)] backdrop-blur shadow-lg sm:shadow-xl"
           >
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 sm:gap-4">
               <div
-                className="w-10 h-10 rounded-2xl"
+                className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-xl sm:rounded-2xl"
                 style={{ background: `${card.accent}22` }}
               />
-              <h3 className="text-white font-semibold">{card.title}</h3>
+              <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl text-white font-semibold">
+                {card.title}
+              </h3>
             </div>
-            <p className="mt-3 text-white/80">{card.text}</p>
+            <p className="mt-3 sm:mt-4 text-sm sm:text-base md:text-lg text-white/80">
+              {card.text}
+            </p>
           </motion.div>
         ))}
       </div>
-      <p className="mt-6 text-center text-white/80">
+
+      {/* 🔹 Subtitle */}
+      <p className="mt-6 sm:mt-8 text-center text-sm sm:text-base md:text-lg lg:text-xl text-white/80">
         This is your chance to be discovered!
       </p>
     </Container>
@@ -486,7 +595,6 @@ const Register = () => {
     name: "",
     email: "",
     phone: "",
-    // age: "",
     city: "",
     country: "",
     idFile: null,
@@ -504,21 +612,13 @@ const Register = () => {
   };
 
   const validate = () => {
-    if (
-      !form.name ||
-      !form.email ||
-      !form.phone ||
-      !form.age ||
-      !form.city ||
-      !form.country
-    )
+    if (!form.name || !form.email || !form.phone || !form.city || !form.country)
       return false;
     if (!form.agree) return false;
     return true;
   };
 
   const createRegistrationId = () => {
-    // simple client-side ID (replace with server-generated in production)
     const ts = Date.now().toString(36);
     const slug = form.name
       .trim()
@@ -537,7 +637,7 @@ const Register = () => {
       return;
     }
 
-    const orderAmount = 1999 * 100; // in paise
+    const orderAmount = 1999 * 100;
     const rId = createRegistrationId();
 
     const options = {
@@ -568,11 +668,9 @@ const Register = () => {
       alert("Please complete all required fields and accept the rules.");
       return;
     }
-    // Choose gateway by country (simple heuristic)
     if ((form.country || "").toLowerCase() === "india") {
       await handleRazorpay();
     } else {
-      // Redirect to Stripe or PayPal (replace URLs)
       const rId = createRegistrationId();
       setRegId(rId);
       const url =
@@ -588,13 +686,17 @@ const Register = () => {
   return (
     <Section id="register">
       <Container>
-        <div className="grid lg:grid-cols-2 gap-10 items-stretch">
-          <div className="rounded-3xl p-8 border border-white/10 bg-[rgba(255,255,255,0.03)] backdrop-blur">
-            <h2 className="text-2xl sm:text-3xl font-bold text-white">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 items-stretch">
+          {/* Left form */}
+          <div className="rounded-3xl p-6 sm:p-8 lg:p-10 border border-white/10 bg-[rgba(255,255,255,0.03)] backdrop-blur">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">
               Register Now
             </h2>
-            <p className="mt-2 text-white/70">
-              Entry Fee: <span className="font-semibold text-white">₹1999</span>
+            <p className="mt-2 text-white/70 text-sm sm:text-base">
+              Entry Fee:{" "}
+              <span className="font-semibold text-white text-base sm:text-lg">
+                ₹1999
+              </span>
             </p>
             <form
               onSubmit={onSubmit}
@@ -622,14 +724,6 @@ const Register = () => {
                 onChange={onChange}
                 required
               />
-              {/* <Input
-                label="Age"
-                type="number"
-                name="age"
-                value={form.age}
-                onChange={onChange}
-                required
-              /> */}
               <Input
                 label="City"
                 name="city"
@@ -649,6 +743,8 @@ const Register = () => {
                 name="idFile"
                 onChange={onChange}
               />
+
+              {/* Checkbox */}
               <div className="sm:col-span-2 flex items-start gap-3 mt-2">
                 <input
                   type="checkbox"
@@ -657,7 +753,7 @@ const Register = () => {
                   onChange={onChange}
                   className="mt-1 w-4 h-4"
                 />
-                <p className="text-sm text-white/80">
+                <p className="text-xs sm:text-sm text-white/80">
                   I accept the{" "}
                   <a
                     href="#rules"
@@ -669,18 +765,20 @@ const Register = () => {
                   .
                 </p>
               </div>
+
+              {/* Buttons */}
               <div className="sm:col-span-2 mt-4 flex flex-wrap items-center gap-3">
                 <button
                   disabled={loading}
                   type="submit"
-                  className="px-6 py-3 rounded-2xl font-semibold shadow-xl text-white"
+                  className="px-5 sm:px-6 py-2.5 sm:py-3 rounded-2xl font-semibold shadow-xl text-white text-sm sm:text-base"
                   style={{ background: BRAND.primary }}
                 >
                   {loading ? "Processing..." : "Pay & Register"}
                 </button>
                 {regId && (
                   <span
-                    className="text-xs rounded-full px-3 py-1 border"
+                    className="text-xs sm:text-sm rounded-full px-3 py-1 border"
                     style={{
                       borderColor: BRAND.secondary,
                       color: BRAND.secondary,
@@ -692,11 +790,13 @@ const Register = () => {
               </div>
             </form>
           </div>
-          <div className="rounded-3xl p-8 border border-white/10 bg-[radial-gradient(600px_200px_at_20%_10%,rgba(229,9,20,0.15),transparent),radial-gradient(600px_200px_at_90%_90%,rgba(0,229,255,0.12),transparent)]">
-            <h3 className="text-xl font-semibold text-white">
+
+          {/* Right info panel */}
+          <div className="rounded-3xl p-6 sm:p-8 lg:p-10 border border-white/10 bg-[radial-gradient(600px_200px_at_20%_10%,rgba(229,9,20,0.15),transparent),radial-gradient(600px_200px_at_90%_90%,rgba(0,229,255,0.12),transparent)]">
+            <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-white">
               What you’ll need
             </h3>
-            <ul className="mt-4 space-y-3 text-white/80 text-sm">
+            <ul className="mt-4 space-y-3 text-white/80 text-xs sm:text-sm md:text-base">
               {[
                 "A 3-minute vertical (portrait) performance video.",
                 "Government-issued ID for verification.",
@@ -706,7 +806,7 @@ const Register = () => {
               ].map((t, i) => (
                 <li key={i} className="flex items-start gap-2">
                   <CheckCircle2
-                    className="mt-0.5"
+                    className="mt-0.5 flex-shrink-0"
                     size={16}
                     style={{ color: BRAND.secondary }}
                   />
@@ -714,7 +814,7 @@ const Register = () => {
                 </li>
               ))}
             </ul>
-            <div className="mt-6 p-4 rounded-2xl border border-white/10 text-white/80 text-sm">
+            <div className="mt-6 p-4 rounded-2xl border border-white/10 text-white/80 text-xs sm:text-sm md:text-base">
               After payment, your Registration ID is generated automatically.
               Keep it safe for all future communications.
             </div>
@@ -725,12 +825,13 @@ const Register = () => {
   );
 };
 
+/* Inputs */
 const Input = ({ label, className = "", ...props }) => (
   <label className={`flex flex-col gap-1 ${props.className || className}`}>
-    <span className="text-sm text-white/70">{label}</span>
+    <span className="text-xs sm:text-sm text-white/70">{label}</span>
     <input
       {...props}
-      className="px-4 py-3 rounded-xl bg-[#0b0f17] border border-white/10 text-white placeholder-white/40 focus:outline-none focus:ring-2"
+      className="px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl bg-[#0b0f17] border border-white/10 text-white text-sm sm:text-base placeholder-white/40 focus:outline-none focus:ring-2"
       style={{ outlineColor: BRAND.secondary }}
     />
   </label>
@@ -738,12 +839,12 @@ const Input = ({ label, className = "", ...props }) => (
 
 const FileInput = ({ label, name, onChange }) => (
   <label className="flex flex-col gap-1 sm:col-span-2">
-    <span className="text-sm text-white/70">{label}</span>
+    <span className="text-xs sm:text-sm text-white/70">{label}</span>
     <input
       name={name}
       type="file"
       onChange={onChange}
-      className="file:mr-4 file:rounded-lg file:border-0 file:px-4 file:py-2 file:bg-[#121a2a] file:text-white/90 file:hover:opacity-90 text-white/70"
+      className="file:mr-4 file:rounded-lg file:border-0 file:px-3 sm:file:px-4 file:py-2 file:bg-[#121a2a] file:text-white/90 file:hover:opacity-90 text-white/70 text-xs sm:text-sm"
     />
   </label>
 );
@@ -755,15 +856,24 @@ const AccordionItem = ({ title, children }) => {
     <div className="border border-white/10 rounded-2xl overflow-hidden">
       <button
         onClick={() => setOpen(!open)}
-        className="w-full flex items-center justify-between px-5 py-4 text-left text-white/90 hover:bg-white/5"
+        className="
+          w-full flex items-center justify-between
+          px-4 sm:px-5 lg:px-6 py-3 sm:py-4
+          text-left text-white/90
+          hover:bg-white/5
+        "
       >
-        <span className="font-medium">{title}</span>
+        <span className="font-medium text-base sm:text-lg lg:text-xl">
+          {title}
+        </span>
         <ChevronDown
           className={`transition-transform ${open ? "rotate-180" : ""}`}
         />
       </button>
       {open && (
-        <div className="px-5 pb-5 text-white/70 text-sm">{children}</div>
+        <div className="px-4 mt-3 sm:px-5 lg:px-6 pb-4 sm:pb-5 text-white/70 text-sm sm:text-base">
+          {children}
+        </div>
       )}
     </div>
   );
@@ -772,10 +882,10 @@ const AccordionItem = ({ title, children }) => {
 const Rules = () => (
   <Section id="rules">
     <Container>
-      <h2 className="text-2xl sm:text-3xl font-bold text-white text-center">
+      <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white text-center">
         Rules & Regulations
       </h2>
-      <div className="mt-8 space-y-3">
+      <div className="mt-8 space-y-3 max-w-3xl mx-auto">
         <AccordionItem title="Eligibility">
           Open to all Telugu-speaking participants worldwide. Minors must submit
           parent/guardian consent.
@@ -808,10 +918,20 @@ const Rules = () => (
 const FAQ = () => (
   <Section id="faq">
     <Container>
-      <h2 className="text-2xl sm:text-3xl font-bold text-white text-center">
+      <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white text-center">
         FAQ
       </h2>
-      <div className="mt-8 grid md:grid-cols-2 gap-4">
+      <div
+        className="
+          mt-8 
+          grid grid-cols-1 
+          sm:grid-cols-1 
+          md:grid-cols-2 
+          lg:grid-cols-2 
+          xl:grid-cols-2 
+          gap-4 sm:gap-6 lg:gap-8
+        "
+      >
         <FaqItem
           q="Can I participate from abroad?"
           a="Yes, it’s open worldwide."
@@ -834,9 +954,18 @@ const FAQ = () => (
 );
 
 const FaqItem = ({ q, a }) => (
-  <div className="rounded-2xl p-5 border border-white/10 bg-[rgba(255,255,255,0.03)]">
-    <h3 className="text-white font-medium">{q}</h3>
-    <p className="mt-2 text-white/70 text-sm">{a}</p>
+  <div
+    className="
+      rounded-2xl p-5 
+      border border-white/10 
+      bg-[rgba(255,255,255,0.03)] 
+      transition hover:shadow-lg hover:shadow-white/5
+    "
+  >
+    <h3 className="text-white font-medium text-base sm:text-lg lg:text-xl">
+      {q}
+    </h3>
+    <p className="mt-2 text-white/70 text-sm sm:text-base">{a}</p>
   </div>
 );
 
@@ -844,16 +973,16 @@ const FaqItem = ({ q, a }) => (
 const Contact = () => (
   <Section id="contact">
     <Container>
-      <h2 className="text-2xl sm:text-3xl font-bold text-white text-center mb-8">
+      <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white text-center mb-8">
         Contact
       </h2>
-      <div className="grid lg:grid-cols-2 gap-8 items-start">
-        <div className="rounded-3xl p-2 md:p-8 border border-white/10 bg-[rgba(255,255,255,0.03)] min-h-[320px]">
+      <div className="flex justify-center">
+        <div className="rounded-3xl p-2 md:p-8 border border-white/10 bg-[rgba(255,255,255,0.03)] min-h-[320px] w-full max-w-xl">
           <h2 className="text-2xl sm:text-3xl font-bold text-white">
             Need Help?
           </h2>
           <ul className="mt-4 space-y-3 text-white/80 text-xl">
-            <li className="flex items-center  gap-3">
+            <li className="flex items-center gap-3">
               <Mail size={18} style={{ color: BRAND.secondary }} />{" "}
               contests@swara.media
             </li>
@@ -893,15 +1022,6 @@ const Contact = () => (
             </a>
           </div>
         </div>
-        <div className="rounded-3xl overflow-hidden border border-white/10 min-h-[320px]">
-          <iframe
-            title="Swara Media Office Map"
-            className="w-full h-[320px]"
-            loading="lazy"
-            allowFullScreen
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3806.468948430153!2d78.387!3d17.435!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTfCsDI2JzA2LjAiTiA3OMKwMjMnMTMuMiJF!5e0!3m2!1sen!2sin!4v1700000000000"
-          ></iframe>
-        </div>
       </div>
     </Container>
   </Section>
@@ -910,19 +1030,44 @@ const Contact = () => (
 // ======= FOOTER =======
 const Footer = () => (
   <footer className="border-t border-white/10">
-    <Container className="py-10 text-white/70 text-sm grid md:grid-cols-2 gap-4">
-      <p>© 2025 Swara Media</p>
-      <p className="md:text-right space-x-4">
-        <a href="#" className="hover:text-white">
-          Terms & Conditions
-        </a>
-        <a href="#" className="hover:text-white">
-          Privacy Policy
-        </a>
-        <a href="#" className="hover:text-white">
-          Refund Policy
-        </a>
-      </p>
+    <Container className="py-10 text-white/70 text-sm">
+      <div
+        className="
+        grid grid-cols-1 
+        sm:grid-cols-1 
+        md:grid-cols-2 
+        lg:grid-cols-2 
+        xl:grid-cols-2 
+        gap-4
+      "
+      >
+        {/* Left Side */}
+        <p className="text-center sm:text-center md:text-left lg:text-left xl:text-left">
+          © 2025 Swara Media
+        </p>
+
+        {/* Right Side */}
+        <p
+          className="
+          text-center 
+          sm:text-center 
+          md:text-right 
+          lg:text-right 
+          xl:text-right 
+          space-x-4
+        "
+        >
+          <a href="#" className="hover:text-white">
+            Terms & Conditions
+          </a>
+          <a href="#" className="hover:text-white">
+            Privacy Policy
+          </a>
+          <a href="#" className="hover:text-white">
+            Refund Policy
+          </a>
+        </p>
+      </div>
     </Container>
   </footer>
 );
@@ -982,7 +1127,7 @@ export default function SwaraLandingPage() {
       {/* Floating register badge */}
       <a
         href="#register"
-        className="fixed bottom-6 right-6 rounded-full shadow-2xl px-5 py-3 font-semibold"
+        className="fixed bottom-6 right-6 rounded-full shadow-2xl px-5 py-3 font-semibold z-100"
         style={{ background: BRAND.primary, color: "white" }}
       >
         Register Now

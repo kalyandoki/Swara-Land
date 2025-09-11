@@ -174,7 +174,7 @@
 // export default Devices;
 
 import React, { useEffect, useRef, useState } from "react";
-import video1 from "../assets/videos/swaram-v.mp4";
+import video1 from "../assets/videos/sm-v.mp4";
 
 const mockups = [
   {
@@ -183,7 +183,7 @@ const mockups = [
     video: video1,
     border:
       "https://framerusercontent.com/images/H2xOBKfRU2M06U4j9LF5WN8z6pA.png",
-    offset: "translate-y-20",
+    offset: "translate-y-24",
   },
   {
     shadow:
@@ -191,7 +191,7 @@ const mockups = [
     video: video1,
     border:
       "https://framerusercontent.com/images/H2xOBKfRU2M06U4j9LF5WN8z6pA.png",
-    offset: "translate-y-14",
+    offset: "translate-y-10",
   },
   {
     shadow:
@@ -199,7 +199,7 @@ const mockups = [
     video: video1,
     border:
       "https://framerusercontent.com/images/H2xOBKfRU2M06U4j9LF5WN8z6pA.png",
-    sticky: true,
+    sticky: true, // ✅ center one stays fixed
   },
   {
     shadow:
@@ -207,7 +207,7 @@ const mockups = [
     video: video1,
     border:
       "https://framerusercontent.com/images/H2xOBKfRU2M06U4j9LF5WN8z6pA.png",
-    offset: "translate-y-14",
+    offset: "translate-y-10",
   },
   {
     shadow:
@@ -215,7 +215,7 @@ const mockups = [
     video: video1,
     border:
       "https://framerusercontent.com/images/H2xOBKfRU2M06U4j9LF5WN8z6pA.png",
-    offset: "translate-y-20",
+    offset: "translate-y-24",
   },
 ];
 
@@ -228,54 +228,54 @@ const SectionWithScrollAction = () => {
       ([entry]) => {
         setIsVisible(entry.isIntersecting);
       },
-      {
-        root: null, // viewport
-        threshold: 0.3, // trigger when 30% visible
-      }
+      { threshold: 0.3 }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
+    if (sectionRef.current) observer.observe(sectionRef.current);
 
     return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
+      if (sectionRef.current) observer.unobserve(sectionRef.current);
     };
   }, []);
-
-  useEffect(() => {
-    if (isVisible) {
-      console.log(
-        "Section entered viewport - trigger animation or action here"
-      );
-    } else {
-      console.log("Section left viewport");
-    }
-  }, [isVisible]);
 
   return (
     <section
       ref={sectionRef}
-      className={`relative bg-[linear-gradient(180deg,rgba(255,255,255,0.03)_0%,rgba(255,255,255,0)_100%)] py-32 transition-opacity duration-700 ${
+      className={`relative bg-[linear-gradient(180deg,rgba(255,255,255,0.03)_0%,rgba(255,255,255,0)_100%)] 
+      py-16 sm:py-20 md:py-28 lg:py-32 
+      transition-opacity duration-700 ${
         isVisible ? "opacity-100" : "opacity-50"
       }`}
     >
       {/* Heading */}
-      <h1 className="text-5xl font-bold text-white mb-10 text-center">
+      <h1 className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white mb-6 sm:mb-8 md:mb-10 text-center px-4">
         Regional Stories. Short Series.
         <br />
         Full High.
       </h1>
 
-      <div className="flex justify-center gap-6 md:gap-12 h-[70vh] mb-28 mt-20 p-10">
+      {/* Device mockups */}
+      <div
+        className="
+    flex flex-col items-center gap-6
+    sm:flex-wrap sm:justify-center sm:gap-6 
+    md:flex-nowrap md:flex-row 
+    h-auto sm:h-[65vh] md:h-[75vh] lg:h-[80vh] xl:h-[85vh] 
+    mb-12 sm:mb-16 md:mb-20 lg:mb-28 mt-6 sm:mt-10 md:mt-20 p-4 sm:p-6 md:p-10
+  "
+      >
         {mockups.map((item, i) => (
           <div
             key={i}
-            className={`relative w-50 md:w-76 ${
-              item.sticky ? "sticky top-32 self-start" : item.offset || ""
-            }`}
+            className={`
+        relative 
+        ${
+          item.sticky
+            ? "w-64 sm:w-72 md:w-80 lg:w-86 xl:w-[24rem] sm:sticky sm:top-32 self-start z-20"
+            : "w-40 sm:w-48 md:w-52 lg:w-64 xl:w-72 " + (item.offset || "")
+        }
+        ${i === 2 ? "block mx-auto sm:mx-0" : "hidden sm:block"}
+      `}
           >
             {/* Shadow */}
             <img
@@ -284,8 +284,11 @@ const SectionWithScrollAction = () => {
               className="absolute inset-0 w-full h-full object-fill rounded-2xl opacity-100"
             />
 
-            {/* Video Screen */}
-            <div className="absolute inset-0 w-[90%] h-[80%] mx-auto my-auto overflow-hidden rounded-[22px] flex items-center justify-center">
+            {/* Video */}
+            <div
+              className="absolute inset-0 w-[85%] sm:w-[90%] h-[75%] sm:h-[80%] mx-auto my-auto 
+          overflow-hidden rounded-[18px] sm:rounded-[20px] md:rounded-[22px] flex items-center justify-center"
+            >
               <video
                 src={item.video}
                 className="w-full h-full object-cover"
@@ -306,7 +309,7 @@ const SectionWithScrollAction = () => {
       </div>
 
       {/* Subtitle */}
-      <p className="text-xl text-center text-white mt-10 mb-6 font-medium">
+      <p className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-center text-white mt-6 sm:mt-8 lg:mt-10 mb-4 sm:mb-6 font-medium px-4">
         Addictive Short Series.
         <br />
         For your phone. In your language. Just for you.
@@ -314,7 +317,11 @@ const SectionWithScrollAction = () => {
 
       {/* Button */}
       <div className="flex justify-center">
-        <button className="bg-yellow-400 text-black text-base font-medium px-6 py-3 rounded-xl shadow-md hover:bg-yellow-300 transition-all">
+        <button
+          className="bg-yellow-400 text-black text-sm sm:text-base md:text-lg font-medium 
+          px-4 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 rounded-lg sm:rounded-xl 
+          shadow-md hover:bg-yellow-300 transition-all"
+        >
           Available for iOS &amp; Android
         </button>
       </div>

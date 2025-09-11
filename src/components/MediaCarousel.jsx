@@ -2,19 +2,19 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 
 // ✅ Import your images
-import img1 from "../assets/images/SL22.png";
-import img2 from "../assets/images/SL11.png";
-import img3 from "../assets/images/SL22.png";
-import img4 from "../assets/images/SL11.png";
-import img5 from "../assets/images/SL22.png";
-import img6 from "../assets/images/SL11.png";
-import img7 from "../assets/images/SL22.png";
-import img8 from "../assets/images/SL11.png";
-import img9 from "../assets/images/SL22.png";
-import img10 from "../assets/images/SL11.png";
-import img11 from "../assets/images/SL22.png";
-import img12 from "../assets/images/SL11.png";
-import img13 from "../assets/images/SL22.png";
+import img1 from "../assets/images/sm-w.png";
+import img2 from "../assets/images/eat-p.png";
+import img3 from "../assets/images/sm-w.png";
+import img4 from "../assets/images/eat-p.png";
+import img5 from "../assets/images/sm-w.png";
+import img6 from "../assets/images/eat-p.png";
+import img7 from "../assets/images/sm-w.png";
+import img8 from "../assets/images/eat-p.png";
+import img9 from "../assets/images/sm-w.png";
+import img10 from "../assets/images/eat-p.png";
+import img11 from "../assets/images/sm-w.png";
+import img12 from "../assets/images/eat-p.png";
+// import img13 from "../assets/images/sm-w.png";
 
 // ✅ Images array
 const images = [
@@ -30,13 +30,13 @@ const images = [
   img10,
   img11,
   img12,
-  img13,
+  // img13,
 ];
 
 const MediaCarousel = () => {
   return (
     <div className="max-w-8xl mx-auto pt-20 px-4">
-      <h2 className="text-2xl sm:text-3xl font-bold text-center text-[#fff] mb-8 font-roboto">
+      <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-center text-[#fff] mb-8 font-roboto">
         Media Partners
       </h2>
       <Carousel
@@ -60,7 +60,7 @@ const MediaCarousel = () => {
             className="flex items-center justify-center px-2 py-2 sm:px-4 sm:py-4"
           >
             <div
-              className="w-36 sm:w-44 md:w-52 lg:w-60 h-28 sm:h-32 md:h-36 lg:h-44 
+              className="w-36 sm:w-44 md:w-40 lg:w-50 h-28 sm:h-25 md:h-25 lg:h-28 
             rounded-2xl 
               transition-transform duration-300 ease-in-out transform hover:scale-105 
               flex items-center justify-center"
