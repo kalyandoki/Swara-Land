@@ -1,7 +1,11 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import lanBg from "./assets/images/BG5.jpg"; //BG.jpeg.jpg;
+import lanBg from "./assets/images/SMBG2.png"; //BG.jpeg.jpg;
+import top3 from "./assets/images/top3.png";
+import final10 from "./assets/images/final-10.png";
+import allP3 from "./assets/images/all-p2.png";
 import { Menu, X } from "lucide-react"; // for hamburger menu icons
 import { motion, useAnimation, useInView } from "framer-motion";
+import axios from "axios";
 import {
   ArrowRight,
   CheckCircle2,
@@ -216,7 +220,7 @@ const Navbar = () => {
         </a>
 
         {/* Desktop nav (md+) */}
-        <nav className="hidden md:flex items-center gap-4 md:gap-4 lg:gap-6 text-base lg:text-lg">
+        <nav className="hidden md:flex items-center gap-4 md:gap-4 lg:gap-6 text-base md:text-sm lg:text-lg">
           {links.map((l) => (
             <a
               key={l.href}
@@ -235,7 +239,7 @@ const Navbar = () => {
         {/* Register button (all devices) */}
         <a
           href="#register"
-          className="hidden sm:inline-flex items-center gap-2 rounded-xl sm:rounded-2xl px-3 sm:px-4 md:px-6 py-1.5 sm:py-2 md:py-3 text-xs sm:text-sm md:text-base font-semibold shadow"
+          className="hidden sm:inline-flex items-center gap-2 rounded-xl sm:rounded-2xl px-3 sm:px-4 md:px-6 py-1.5 sm:py-2 md:py-2 text-xs sm:text-sm lg:text-base font-semibold shadow"
           style={{ background: BRAND.primary, color: "white" }}
         >
           Register Now
@@ -309,13 +313,13 @@ const Hero = () => {
       </div>
 
       <Container>
-        <div className="text-center  mt-10 p-2 md:p-4">
+        <div className="text-center  md:mt-10 md:p-4">
           {/* Title */}
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-xl sm:text-2xl md:text-3xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight text-white"
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight text-white"
           >
             🎬 Swara Media Global Short Film Contest 2025
           </motion.h1>
@@ -393,7 +397,7 @@ const About = () => (
     className="bg-[linear-gradient(180deg,rgba(255,255,255,0.03)_0%,rgba(255,255,255,0)_100%)] py-12 sm:py-16 md:py-20 lg:py-28"
   >
     <Container>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 lg:gap-16 items-center">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 lg:gap-16 items-start">
         {/* Left Text Content */}
         <div>
           <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white leading-snug">
@@ -546,17 +550,17 @@ const Rewards = () => (
           {
             title: "Top 3 Winners",
             text: "Guaranteed role in Swara Media Web Series.",
-            accent: BRAND.gold,
+            accent: top3,
           },
           {
             title: "Top 10 Finalists",
             text: "Featured in Swara Media Talent Showcase.",
-            accent: BRAND.secondary,
+            accent: final10,
           },
           {
             title: "All Participants",
             text: "Digital Certificate & Talent Community Access.",
-            accent: BRAND.primary,
+            accent: allP3,
           },
         ].map((card, i) => (
           <motion.div
@@ -565,18 +569,22 @@ const Rewards = () => (
             className="rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 border border-white/10 
                        bg-[rgba(255,255,255,0.03)] backdrop-blur shadow-lg sm:shadow-xl"
           >
-            <div className="flex items-center gap-3 sm:gap-4">
-              <div
-                className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-xl sm:rounded-2xl"
-                style={{ background: `${card.accent}22` }}
-              />
+            <div className="flex flex-col items-center gap-3 sm:gap-4">
+              <div className="w-15 h-15 sm:w-15 sm:h-15 md:w-20 md:h-20 lg:h-25 lg:w-25 rounded-full overflow-hidden">
+                <img
+                  src={card.accent}
+                  alt={card.title}
+                  className="w-full h-full object-contain"
+                />
+              </div>
+
               <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl text-white font-semibold">
                 {card.title}
               </h3>
+              <p className=" text-sm sm:text-base md:text-lg text-white/80 text-center">
+                {card.text}
+              </p>
             </div>
-            <p className="mt-3 sm:mt-4 text-sm sm:text-base md:text-lg text-white/80">
-              {card.text}
-            </p>
           </motion.div>
         ))}
       </div>
@@ -668,19 +676,55 @@ const Register = () => {
       alert("Please complete all required fields and accept the rules.");
       return;
     }
+
+    // Generate Registration ID
+    const rId = createRegistrationId();
+    setRegId(rId);
+
+    // 👇 If India → Razorpay, else Stripe/PayPal
     if ((form.country || "").toLowerCase() === "india") {
       await handleRazorpay();
     } else {
-      const rId = createRegistrationId();
-      setRegId(rId);
       const url =
         STRIPE_CHECKOUT_URL !== "#" ? STRIPE_CHECKOUT_URL : PAYPAL_CHECKOUT_URL;
-      if (url === "#")
+      if (url === "#") {
         alert(
           `Demo mode: Registration ID ${rId}. Configure Stripe/PayPal URLs.`
         );
-      else window.location.href = url + `?reg=${encodeURIComponent(rId)}`;
+      } else {
+        window.location.href = url + `?reg=${encodeURIComponent(rId)}`;
+      }
     }
+
+    // 👇 Send data to backend API (common for all payments)
+    try {
+      const response = await axios.post("http://localhost:5000/register", {
+        reg_id: rId,
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
+        city: form.city,
+        country: form.country,
+        id_file: form.idFile ? form.idFile.name : null,
+        agree: form.agree,
+        payment_id: "PAY12345", // replace with actual Razorpay/Stripe payment_id
+      });
+
+      console.log("✅ Saved in backend:", response.data);
+    } catch (error) {
+      console.error("❌ Error saving to backend:", error);
+      alert("Something went wrong while saving registration.");
+    }
+
+    setForm({
+      name: "",
+      email: "",
+      phone: "",
+      city: "",
+      country: "",
+      idFile: null,
+      agree: false,
+    });
   };
 
   return (

@@ -2,19 +2,19 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 
 // ✅ Import your images
-import img1 from "../assets/images/sm-w.png";
+import img1 from "../assets/images/sm-b.png";
 import img2 from "../assets/images/eat-p.png";
-import img3 from "../assets/images/sm-w.png";
+import img3 from "../assets/images/sm-b.png";
 import img4 from "../assets/images/eat-p.png";
-import img5 from "../assets/images/sm-w.png";
+import img5 from "../assets/images/sm-b.png";
 import img6 from "../assets/images/eat-p.png";
-import img7 from "../assets/images/sm-w.png";
+import img7 from "../assets/images/sm-b.png";
 import img8 from "../assets/images/eat-p.png";
-import img9 from "../assets/images/sm-w.png";
+import img9 from "../assets/images/sm-b.png";
 import img10 from "../assets/images/eat-p.png";
-import img11 from "../assets/images/sm-w.png";
+import img11 from "../assets/images/sm-b.png";
 import img12 from "../assets/images/eat-p.png";
-// import img13 from "../assets/images/sm-w.png";
+// import img13 from "../assets/images/sm-b.png";
 
 // ✅ Images array
 const images = [
@@ -60,10 +60,10 @@ const MediaCarousel = () => {
             className="flex items-center justify-center px-2 py-2 sm:px-4 sm:py-4"
           >
             <div
-              className="w-36 sm:w-44 md:w-40 lg:w-50 h-28 sm:h-25 md:h-25 lg:h-28 
-            rounded-2xl 
+              className="w-28 sm:w-44 md:w-40 lg:w-50 h-28 sm:h-25 md:h-25 lg:h-28 
+            rounded-4xl 
               transition-transform duration-300 ease-in-out transform hover:scale-105 
-              flex items-center justify-center"
+              flex items-center justify-center bg-[#fff] md:p-4 shadow-lg"
             >
               <img
                 src={img}
