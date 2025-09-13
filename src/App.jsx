@@ -570,7 +570,7 @@ const Rewards = () => (
                        bg-[rgba(255,255,255,0.03)] backdrop-blur shadow-lg sm:shadow-xl"
           >
             <div className="flex flex-col items-center gap-3 sm:gap-4">
-              <div className="w-15 h-15 sm:w-15 sm:h-15 md:w-20 md:h-20 lg:h-25 lg:w-25 rounded-full overflow-hidden">
+              <div className="w-15 h-15 sm:w-15 sm:h-15 md:w-20 md:h-20 lg:h-25 lg:w-25 rounded-3xl overflow-hidden">
                 <img
                   src={card.accent}
                   alt={card.title}
