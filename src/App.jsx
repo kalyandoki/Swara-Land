@@ -1,8 +1,12 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import lanBg from "./assets/images/SMBG2.png"; //BG.jpeg.jpg;
-import top3 from "./assets/images/top3.png";
-import final10 from "./assets/images/final-10.png";
-import allP3 from "./assets/images/all-p2.png";
+import top3 from "./assets/images/swara-t33.png";
+import final10 from "./assets/images/swara-t10.png";
+import allP3 from "./assets/images/swara-all3.png";
+import regBg from "./assets/images/RG-Img1.png";
+import regBg1 from "./assets/images/Rg11.png";
+import { FaWhatsapp } from "react-icons/fa";
+
 import { Menu, X } from "lucide-react"; // for hamburger menu icons
 import { motion, useAnimation, useInView } from "framer-motion";
 import axios from "axios";
@@ -27,6 +31,7 @@ import {
 } from "lucide-react";
 import CollectionSection from "./components/CollectionSection";
 import MediaCarousel from "./components/MediaCarousel";
+import Leaderboard from "./components/LeaderBoard";
 
 /**
  * Swara Media – Global Portrait Contest 2025
@@ -508,7 +513,7 @@ const HowItWorks = () => {
   return (
     <Section id="how">
       <Container>
-        <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white text-center">
+        <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white text-center">
           How It Works
         </h2>
         <p className="mt-2 text-sm sm:text-base md:text-lg text-white/70 text-center">
@@ -540,7 +545,7 @@ const Rewards = () => (
 
     <Container>
       {/* 🔹 Heading */}
-      <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white text-center">
+      <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white text-center">
         Rewards & Opportunities
       </h2>
 
@@ -570,7 +575,7 @@ const Rewards = () => (
                        bg-[rgba(255,255,255,0.03)] backdrop-blur shadow-lg sm:shadow-xl"
           >
             <div className="flex flex-col items-center gap-3 sm:gap-4">
-              <div className="w-15 h-15 sm:w-15 sm:h-15 md:w-20 md:h-20 lg:h-25 lg:w-25 rounded-3xl overflow-hidden">
+              <div className="w-15 h-15 sm:w-15 sm:h-15 md:w-20 md:h-20 lg:h-25 lg:w-25 rounded-2xl overflow-hidden">
                 <img
                   src={card.accent}
                   alt={card.title}
@@ -597,301 +602,378 @@ const Rewards = () => (
   </Section>
 );
 
-// ======= REGISTRATION =======
+//======= REGISTRATION =======
+// const Register = () => {
+//   const [form, setForm] = useState({
+//     name: "",
+//     email: "",
+//     phone: "",
+//     city: "",
+//     country: "",
+//     idFile: null,
+//     agree: false,
+//   });
+//   const [loading, setLoading] = useState(false);
+//   const [regId, setRegId] = useState("");
+
+//   const onChange = (e) => {
+//     const { name, value, type, checked, files } = e.target;
+//     setForm((f) => ({
+//       ...f,
+//       [name]: type === "checkbox" ? checked : files ? files[0] : value,
+//     }));
+//   };
+
+//   const validate = () => {
+//     if (!form.name || !form.email || !form.phone || !form.city || !form.country)
+//       return false;
+//     if (!form.agree) return false;
+//     return true;
+//   };
+
+//   const createRegistrationId = () => {
+//     const ts = Date.now().toString(36);
+//     const slug = form.name
+//       .trim()
+//       .toLowerCase()
+//       .replace(/[^a-z0-9]+/g, "")
+//       .slice(0, 4);
+//     return `SWARA25-${slug}-${ts}`.toUpperCase();
+//   };
+
+//   const handleRazorpay = async () => {
+//     setLoading(true);
+//     const ok = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
+//     if (!ok) {
+//       alert("Payment SDK failed to load. Check your network.");
+//       setLoading(false);
+//       return;
+//     }
+
+//     const orderAmount = 1999 * 100;
+//     const rId = createRegistrationId();
+
+//     const options = {
+//       key: RAZORPAY_KEY,
+//       amount: orderAmount,
+//       currency: "INR",
+//       name: "Swara Media",
+//       description: "Global Portrait Contest 2025 Registration",
+//       image: "https://swara.media/favicon.ico",
+//       handler: function (response) {
+//         setRegId(rId);
+//         alert(
+//           `Payment successful! Registration ID: ${rId}\nRazorpay Payment ID: ${response.razorpay_payment_id}`
+//         );
+//       },
+//       prefill: { name: form.name, email: form.email, contact: form.phone },
+//       notes: { registration_id: rId },
+//       theme: { color: BRAND.primary },
+//     };
+//     const rzp = new window.Razorpay(options);
+//     rzp.open();
+//     setLoading(false);
+//   };
+
+//   const onSubmit = async (e) => {
+//     e.preventDefault();
+//     if (!validate()) {
+//       alert("Please complete all required fields and accept the rules.");
+//       return;
+//     }
+
+//     // Generate Registration ID
+//     const rId = createRegistrationId();
+//     setRegId(rId);
+
+//     // 👇 If India → Razorpay, else Stripe/PayPal
+//     if ((form.country || "").toLowerCase() === "india") {
+//       await handleRazorpay();
+//     } else {
+//       const url =
+//         STRIPE_CHECKOUT_URL !== "#" ? STRIPE_CHECKOUT_URL : PAYPAL_CHECKOUT_URL;
+//       if (url === "#") {
+//         alert(
+//           `Demo mode: Registration ID ${rId}. Configure Stripe/PayPal URLs.`
+//         );
+//       } else {
+//         window.location.href = url + `?reg=${encodeURIComponent(rId)}`;
+//       }
+//     }
+
+//     // 👇 Send data to backend API (common for all payments)
+//     try {
+//       const response = await axios.post("http://localhost:5000/register", {
+//         reg_id: rId,
+//         name: form.name,
+//         email: form.email,
+//         phone: form.phone,
+//         city: form.city,
+//         country: form.country,
+//         id_file: form.idFile ? form.idFile.name : null,
+//         agree: form.agree,
+//         payment_id: "PAY12345", // replace with actual Razorpay/Stripe payment_id
+//       });
+
+//       console.log("✅ Saved in backend:", response.data);
+//     } catch (error) {
+//       console.error("❌ Error saving to backend:", error);
+//       alert("Something went wrong while saving registration.");
+//     }
+
+//     setForm({
+//       name: "",
+//       email: "",
+//       phone: "",
+//       city: "",
+//       country: "",
+//       idFile: null,
+//       agree: false,
+//     });
+//   };
+
+//   return (
+//     <Section id="register">
+//       <Container>
+//         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 items-stretch">
+//           {/* Left form */}
+//           <div className="rounded-3xl p-6 sm:p-8 lg:p-10 border border-white/10 bg-[rgba(255,255,255,0.03)] backdrop-blur">
+//             <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">
+//               Register Now
+//             </h2>
+//             <p className="mt-2 text-white/70 text-sm sm:text-base">
+//               Entry Fee:{" "}
+//               <span className="font-semibold text-white text-base sm:text-lg">
+//                 ₹1999
+//               </span>
+//             </p>
+//             <form
+//               onSubmit={onSubmit}
+//               className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4"
+//             >
+//               <Input
+//                 label="Full Name"
+//                 name="name"
+//                 value={form.name}
+//                 onChange={onChange}
+//                 required
+//               />
+//               <Input
+//                 label="Email"
+//                 type="email"
+//                 name="email"
+//                 value={form.email}
+//                 onChange={onChange}
+//                 required
+//               />
+//               <Input
+//                 label="Mobile Number (with country code)"
+//                 name="phone"
+//                 value={form.phone}
+//                 onChange={onChange}
+//                 required
+//               />
+//               <Input
+//                 label="City"
+//                 name="city"
+//                 value={form.city}
+//                 onChange={onChange}
+//                 required
+//               />
+//               <Input
+//                 label="Country"
+//                 name="country"
+//                 value={form.country}
+//                 onChange={onChange}
+//                 required
+//               />
+//               <FileInput
+//                 label="ID Proof Upload"
+//                 name="idFile"
+//                 onChange={onChange}
+//               />
+
+//               {/* Checkbox */}
+//               <div className="sm:col-span-2 flex items-start gap-3 mt-2">
+//                 <input
+//                   type="checkbox"
+//                   name="agree"
+//                   checked={form.agree}
+//                   onChange={onChange}
+//                   className="mt-1 w-4 h-4"
+//                 />
+//                 <p className="text-xs sm:text-sm text-white/80">
+//                   I accept the{" "}
+//                   <a
+//                     href="#rules"
+//                     className="underline"
+//                     style={{ color: BRAND.secondary }}
+//                   >
+//                     Contest Rules & Regulations
+//                   </a>
+//                   .
+//                 </p>
+//               </div>
+
+//               {/* Buttons */}
+//               <div className="sm:col-span-2 mt-4 flex flex-wrap items-center gap-3">
+//                 <button
+//                   disabled={loading}
+//                   type="submit"
+//                   className="px-5 sm:px-6 py-2.5 sm:py-3 rounded-2xl font-semibold shadow-xl text-white text-sm sm:text-base"
+//                   style={{ background: BRAND.primary }}
+//                 >
+//                   {loading ? "Processing..." : "Register Now"}
+//                 </button>
+//                 {/* {regId && (
+//                   <span
+//                     className="text-xs sm:text-sm rounded-full px-3 py-1 border"
+//                     style={{
+//                       borderColor: BRAND.secondary,
+//                       color: BRAND.secondary,
+//                     }}
+//                   >
+//                     Registration ID: {regId}
+//                   </span>
+//                 )} */}
+//               </div>
+//             </form>
+//           </div>
+
+//           {/* Right info panel */}
+//           <div className="rounded-3xl p-6 sm:p-8 lg:p-10 border border-white/10 bg-[radial-gradient(600px_200px_at_20%_10%,rgba(229,9,20,0.15),transparent),radial-gradient(600px_200px_at_90%_90%,rgba(0,229,255,0.12),transparent)]">
+//             <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-white">
+//               What you’ll need
+//             </h3>
+//             <ul className="mt-4 space-y-3 text-white/80 text-xs sm:text-sm md:text-base">
+//               {[
+//                 "A 3-minute vertical (portrait) performance video.",
+//                 "Government-issued ID for verification.",
+//                 "YouTube consent for audience voting stage.",
+//                 "Parent/guardian consent if under 18.",
+//                 "Stable internet for upload & payments.",
+//               ].map((t, i) => (
+//                 <li key={i} className="flex items-start gap-2">
+//                   <CheckCircle2
+//                     className="mt-0.5 flex-shrink-0"
+//                     size={16}
+//                     style={{ color: BRAND.secondary }}
+//                   />
+//                   <span>{t}</span>
+//                 </li>
+//               ))}
+//             </ul>
+//             <div className="mt-6 p-4 rounded-2xl border border-white/10 text-white/80 text-xs sm:text-sm md:text-base">
+//               After payment, your Registration ID is generated automatically.
+//               Keep it safe for all future communications.
+//             </div>
+//           </div>
+//         </div>
+//       </Container>
+//     </Section>
+//   );
+// };
+
+// /* Inputs */
+// const Input = ({ label, className = "", ...props }) => (
+//   <label className={`flex flex-col gap-1 ${props.className || className}`}>
+//     <span className="text-xs sm:text-sm text-white/70">{label}</span>
+//     <input
+//       {...props}
+//       className="px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl bg-[#0b0f17] border border-white/10 text-white text-sm sm:text-base placeholder-white/40 focus:outline-none focus:ring-2"
+//       style={{ outlineColor: BRAND.secondary }}
+//     />
+//   </label>
+// );
+
+// const FileInput = ({ label, name, onChange }) => (
+//   <label className="flex flex-col gap-1 sm:col-span-2">
+//     <span className="text-xs sm:text-sm text-white/70">{label}</span>
+//     <input
+//       name={name}
+//       type="file"
+//       onChange={onChange}
+//       className="file:mr-4 file:rounded-lg file:border-0 file:px-3 sm:file:px-4 file:py-2 file:bg-[#121a2a] file:text-white/90 file:hover:opacity-90 text-white/70 text-xs sm:text-sm"
+//     />
+//   </label>
+// );
+
 const Register = () => {
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    city: "",
-    country: "",
-    idFile: null,
-    agree: false,
-  });
-  const [loading, setLoading] = useState(false);
-  const [regId, setRegId] = useState("");
-
-  const onChange = (e) => {
-    const { name, value, type, checked, files } = e.target;
-    setForm((f) => ({
-      ...f,
-      [name]: type === "checkbox" ? checked : files ? files[0] : value,
-    }));
-  };
-
-  const validate = () => {
-    if (!form.name || !form.email || !form.phone || !form.city || !form.country)
-      return false;
-    if (!form.agree) return false;
-    return true;
-  };
-
-  const createRegistrationId = () => {
-    const ts = Date.now().toString(36);
-    const slug = form.name
-      .trim()
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "")
-      .slice(0, 4);
-    return `SWARA25-${slug}-${ts}`.toUpperCase();
-  };
-
-  const handleRazorpay = async () => {
-    setLoading(true);
-    const ok = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
-    if (!ok) {
-      alert("Payment SDK failed to load. Check your network.");
-      setLoading(false);
-      return;
-    }
-
-    const orderAmount = 1999 * 100;
-    const rId = createRegistrationId();
-
-    const options = {
-      key: RAZORPAY_KEY,
-      amount: orderAmount,
-      currency: "INR",
-      name: "Swara Media",
-      description: "Global Portrait Contest 2025 Registration",
-      image: "https://swara.media/favicon.ico",
-      handler: function (response) {
-        setRegId(rId);
-        alert(
-          `Payment successful! Registration ID: ${rId}\nRazorpay Payment ID: ${response.razorpay_payment_id}`
-        );
-      },
-      prefill: { name: form.name, email: form.email, contact: form.phone },
-      notes: { registration_id: rId },
-      theme: { color: BRAND.primary },
-    };
-    const rzp = new window.Razorpay(options);
-    rzp.open();
-    setLoading(false);
-  };
-
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    if (!validate()) {
-      alert("Please complete all required fields and accept the rules.");
-      return;
-    }
-
-    // Generate Registration ID
-    const rId = createRegistrationId();
-    setRegId(rId);
-
-    // 👇 If India → Razorpay, else Stripe/PayPal
-    if ((form.country || "").toLowerCase() === "india") {
-      await handleRazorpay();
-    } else {
-      const url =
-        STRIPE_CHECKOUT_URL !== "#" ? STRIPE_CHECKOUT_URL : PAYPAL_CHECKOUT_URL;
-      if (url === "#") {
-        alert(
-          `Demo mode: Registration ID ${rId}. Configure Stripe/PayPal URLs.`
-        );
-      } else {
-        window.location.href = url + `?reg=${encodeURIComponent(rId)}`;
-      }
-    }
-
-    // 👇 Send data to backend API (common for all payments)
-    try {
-      const response = await axios.post("http://localhost:5000/register", {
-        reg_id: rId,
-        name: form.name,
-        email: form.email,
-        phone: form.phone,
-        city: form.city,
-        country: form.country,
-        id_file: form.idFile ? form.idFile.name : null,
-        agree: form.agree,
-        payment_id: "PAY12345", // replace with actual Razorpay/Stripe payment_id
-      });
-
-      console.log("✅ Saved in backend:", response.data);
-    } catch (error) {
-      console.error("❌ Error saving to backend:", error);
-      alert("Something went wrong while saving registration.");
-    }
-
-    setForm({
-      name: "",
-      email: "",
-      phone: "",
-      city: "",
-      country: "",
-      idFile: null,
-      agree: false,
-    });
-  };
-
   return (
-    <Section id="register">
-      <Container>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 items-stretch">
-          {/* Left form */}
-          <div className="rounded-3xl p-6 sm:p-8 lg:p-10 border border-white/10 bg-[rgba(255,255,255,0.03)] backdrop-blur">
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">
-              Register Now
-            </h2>
-            <p className="mt-2 text-white/70 text-sm sm:text-base">
-              Entry Fee:{" "}
-              <span className="font-semibold text-white text-base sm:text-lg">
-                ₹1999
-              </span>
-            </p>
-            <form
-              onSubmit={onSubmit}
-              className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4"
-            >
-              <Input
-                label="Full Name"
-                name="name"
-                value={form.name}
-                onChange={onChange}
-                required
-              />
-              <Input
-                label="Email"
-                type="email"
-                name="email"
-                value={form.email}
-                onChange={onChange}
-                required
-              />
-              <Input
-                label="Mobile Number (with country code)"
-                name="phone"
-                value={form.phone}
-                onChange={onChange}
-                required
-              />
-              <Input
-                label="City"
-                name="city"
-                value={form.city}
-                onChange={onChange}
-                required
-              />
-              <Input
-                label="Country"
-                name="country"
-                value={form.country}
-                onChange={onChange}
-                required
-              />
-              <FileInput
-                label="ID Proof Upload"
-                name="idFile"
-                onChange={onChange}
-              />
+    <section id="register" className="w-full px-4 sm:px-6 lg:px-12 py-10 mt-20">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+        {/* Left Side */}
+        <div
+          className="relative flex flex-col rounded-3xl overflow-hidden border border-white/10 bg-black/30 min-h-[400px] sm:min-h-[450px] lg:min-h-[550px]"
+          style={{
+            backgroundImage: `url(${regBg})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        ></div>
 
-              {/* Checkbox */}
-              <div className="sm:col-span-2 flex items-start gap-3 mt-2">
-                <input
-                  type="checkbox"
-                  name="agree"
-                  checked={form.agree}
-                  onChange={onChange}
-                  className="mt-1 w-4 h-4"
+        {/* Right Side */}
+        <div
+          className="rounded-3xl p-6 sm:p-8 lg:p-10 border border-white/10 
+          bg-[radial-gradient(600px_200px_at_20%_10%,rgba(229,9,20,0.15),transparent),radial-gradient(600px_200px_at_90%_90%,rgba(0,229,255,0.12),transparent)]"
+        >
+          <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-white">
+            What you’ll need
+          </h3>
+          <ul className="mt-4 space-y-3 text-white/80 text-xs sm:text-sm md:text-base">
+            {[
+              "A 3-minute vertical (portrait) performance video.",
+              // "Government-issued ID for verification.",
+              "YouTube consent for audience voting stage.",
+              "Parent/guardian consent if under 18.",
+              "Stable internet for upload & payments.",
+            ].map((t, i) => (
+              <li key={i} className="flex items-start gap-2">
+                <CheckCircle2
+                  className="mt-0.5 flex-shrink-0"
+                  size={16}
+                  style={{ color: BRAND.secondary }}
                 />
-                <p className="text-xs sm:text-sm text-white/80">
-                  I accept the{" "}
-                  <a
-                    href="#rules"
-                    className="underline"
-                    style={{ color: BRAND.secondary }}
-                  >
-                    Contest Rules & Regulations
-                  </a>
-                  .
-                </p>
-              </div>
-
-              {/* Buttons */}
-              <div className="sm:col-span-2 mt-4 flex flex-wrap items-center gap-3">
-                <button
-                  disabled={loading}
-                  type="submit"
-                  className="px-5 sm:px-6 py-2.5 sm:py-3 rounded-2xl font-semibold shadow-xl text-white text-sm sm:text-base"
-                  style={{ background: BRAND.primary }}
-                >
-                  {loading ? "Processing..." : "Pay & Register"}
-                </button>
-                {regId && (
-                  <span
-                    className="text-xs sm:text-sm rounded-full px-3 py-1 border"
-                    style={{
-                      borderColor: BRAND.secondary,
-                      color: BRAND.secondary,
-                    }}
-                  >
-                    Registration ID: {regId}
-                  </span>
-                )}
-              </div>
-            </form>
+                <span>{t}</span>
+              </li>
+            ))}
+          </ul>
+          <div className="mt-6 p-4 rounded-2xl border border-white/10 text-white/80 text-xs sm:text-sm md:text-base">
+            After payment, your Registration ID is generated automatically. Keep
+            it safe for all future communications.
           </div>
 
-          {/* Right info panel */}
-          <div className="rounded-3xl p-6 sm:p-8 lg:p-10 border border-white/10 bg-[radial-gradient(600px_200px_at_20%_10%,rgba(229,9,20,0.15),transparent),radial-gradient(600px_200px_at_90%_90%,rgba(0,229,255,0.12),transparent)]">
-            <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-white">
-              What you’ll need
-            </h3>
-            <ul className="mt-4 space-y-3 text-white/80 text-xs sm:text-sm md:text-base">
-              {[
-                "A 3-minute vertical (portrait) performance video.",
-                "Government-issued ID for verification.",
-                "YouTube consent for audience voting stage.",
-                "Parent/guardian consent if under 18.",
-                "Stable internet for upload & payments.",
-              ].map((t, i) => (
-                <li key={i} className="flex items-start gap-2">
-                  <CheckCircle2
-                    className="mt-0.5 flex-shrink-0"
-                    size={16}
-                    style={{ color: BRAND.secondary }}
-                  />
-                  <span>{t}</span>
-                </li>
-              ))}
-            </ul>
-            <div className="mt-6 p-4 rounded-2xl border border-white/10 text-white/80 text-xs sm:text-sm md:text-base">
-              After payment, your Registration ID is generated automatically.
-              Keep it safe for all future communications.
-            </div>
-          </div>
+          <a
+            href="https://pages.razorpay.com/pl_RIifPAF4Pwbo2X/view"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <button className="px-6 py-3 mt-6 bg-red-600 hover:bg-red-700  text-white font-semibold rounded-full shadow-lg transition">
+              Register Now - 1999/-
+            </button>
+          </a>
         </div>
-      </Container>
-    </Section>
+        {/* //Small Image + Button Section - fixed at bottom */}
+        {/* <div className="absolute bottom-0 left-0 right-0 flex flex-row items-center justify-center gap-3 p-6 bg-gradient-to-t from-black/70 via-black/30 to-transparent">
+          <img
+              src={regBg1}
+              alt="Register Icon"
+              className="w-16 h-20 object-contain"
+            />
+          <a
+            href="https://pages.razorpay.com/pl_RIifPAF4Pwbo2X/view"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <button className="px-6 py-3 mt-2 bg-red-600 hover:bg-red-700  text-white font-semibold rounded-full shadow-lg transition">
+              Register Now - 1999/-
+            </button>
+          </a>
+        </div> */}
+      </div>
+    </section>
   );
 };
-
-/* Inputs */
-const Input = ({ label, className = "", ...props }) => (
-  <label className={`flex flex-col gap-1 ${props.className || className}`}>
-    <span className="text-xs sm:text-sm text-white/70">{label}</span>
-    <input
-      {...props}
-      className="px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl bg-[#0b0f17] border border-white/10 text-white text-sm sm:text-base placeholder-white/40 focus:outline-none focus:ring-2"
-      style={{ outlineColor: BRAND.secondary }}
-    />
-  </label>
-);
-
-const FileInput = ({ label, name, onChange }) => (
-  <label className="flex flex-col gap-1 sm:col-span-2">
-    <span className="text-xs sm:text-sm text-white/70">{label}</span>
-    <input
-      name={name}
-      type="file"
-      onChange={onChange}
-      className="file:mr-4 file:rounded-lg file:border-0 file:px-3 sm:file:px-4 file:py-2 file:bg-[#121a2a] file:text-white/90 file:hover:opacity-90 text-white/70 text-xs sm:text-sm"
-    />
-  </label>
-);
 
 // ======= RULES (Accordion) =======
 const AccordionItem = ({ title, children }) => {
@@ -926,7 +1008,7 @@ const AccordionItem = ({ title, children }) => {
 const Rules = () => (
   <Section id="rules">
     <Container>
-      <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white text-center">
+      <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white text-center">
         Rules & Regulations
       </h2>
       <div className="mt-8 space-y-3 max-w-3xl mx-auto">
@@ -962,7 +1044,7 @@ const Rules = () => (
 const FAQ = () => (
   <Section id="faq">
     <Container>
-      <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white text-center">
+      <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white text-center">
         FAQ
       </h2>
       <div
@@ -1017,7 +1099,7 @@ const FaqItem = ({ q, a }) => (
 const Contact = () => (
   <Section id="contact">
     <Container>
-      <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white text-center mb-8">
+      <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white text-center mb-8">
         Contact
       </h2>
       <div className="flex justify-center">
@@ -1162,6 +1244,7 @@ export default function SwaraLandingPage() {
         <Rewards />
         <MediaCarousel />
         <Register />
+        <Leaderboard />
         <Rules />
         <FAQ />
         <Contact />
@@ -1169,12 +1252,22 @@ export default function SwaraLandingPage() {
       <Footer />
 
       {/* Floating register badge */}
-      <a
+      {/* <a
         href="#register"
         className="fixed bottom-6 right-6 rounded-full shadow-2xl px-5 py-3 font-semibold z-100"
-        style={{ background: BRAND.primary, color: "white" }}
+        style={{ background: "green", color: "white" }}
       >
-        Register Now
+        <FaWhatsapp size={20} />
+        <span>Chat on WhatsApp</span>
+      </a> */}
+      <a
+        href="https://wa.me/919866843232"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-6 right-6 rounded-full shadow-2xl px-3 py-3 font-semibold z-100 flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white transition"
+      >
+        <FaWhatsapp size={42} />
+        {/* <span>Chat on WhatsApp</span> */}
       </a>
     </div>
   );

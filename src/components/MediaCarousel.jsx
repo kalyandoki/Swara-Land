@@ -36,7 +36,7 @@ const images = [
 const MediaCarousel = () => {
   return (
     <div className="max-w-8xl mx-auto pt-20 px-4">
-      <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-center text-[#fff] mb-8 font-roboto">
+      <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-center text-[#fff] mb-8 font-roboto">
         Media Partners
       </h2>
       <Carousel

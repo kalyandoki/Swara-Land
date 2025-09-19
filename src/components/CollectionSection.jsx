@@ -241,7 +241,7 @@ const SectionWithScrollAction = () => {
       }`}
     >
       {/* Heading */}
-      <h1 className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white mb-6 sm:mb-8 md:mb-10 text-center px-4">
+      <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white mb-6 sm:mb-8 md:mb-10 text-center px-4">
         Regional Stories. Short Series.
         <br />
         Full High.
@@ -264,7 +264,7 @@ const SectionWithScrollAction = () => {
               relative 
               ${
                 item.sticky
-                  ? "w-64 sm:w-72 md:w-80 lg:w-86 xl:w-[24rem] sm:sticky sm:top-32 self-start z-20"
+                  ? "w-64 sm:w-72 md:w-80 lg:w-75 xl:w-[24rem] sm:sticky sm:top-32 self-start z-20"
                   : "w-40 sm:w-48 md:w-52 lg:w-64 xl:w-72 " +
                     (item.offset || "")
               }
@@ -305,7 +305,7 @@ const SectionWithScrollAction = () => {
       </div>
 
       {/* Subtitle */}
-      <p className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-center text-white mt-6 sm:mt-8 lg:mt-10 xl:mt-16 2xl:mt-20 mb-4 sm:mb-6 font-medium px-4">
+      <p className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-center text-white mt-6 sm:mt-8 lg:mt-16 xl:mt-16 2xl:mt-20 mb-4 sm:mb-6 font-medium px-4">
         Addictive Short Series.
         <br />
         For your phone. In your language. Just for you.
