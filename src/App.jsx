@@ -318,15 +318,15 @@ const Hero = () => {
       </div>
 
       <Container>
-        <div className="text-center  md:mt-10 md:p-4">
+        <div className="text-center  md:mt-10 md:p-20 ">
           {/* Title */}
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight text-white"
+            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-extrabold tracking-tight text-white"
           >
-            🎬 Swara Media Global Short Film Contest 2025
+             Swara Media Global Short Film Contest 2025
           </motion.h1>
 
           {/* Subtitle */}
@@ -334,7 +334,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1, duration: 0.6 }}
-            className="mt-3 sm:mt-4 text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-white/80 max-w-3xl mx-auto leading-relaxed"
+            className="mt-3 sm:mt-4 text-sm sm:text-base md:text-md lg:text-xl xl:text-2xl text-white/80 max-w-3xl mx-auto leading-relaxed"
           >
             Show your acting, storytelling, or creative skills in a{" "}
             <span className="font-semibold text-white">

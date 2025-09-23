@@ -66,7 +66,7 @@ export default function Leaderboard() {
   return (
     <div className="max-w-6xl mx-auto p-6">
       {/* Title */}
-      <h2 className="text-3xl font-bold text-center mb-8 text-blue-600">
+      <h2 className="text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-center mb-8 text-blue-600">
         🎬 Swara Media Global Portrait Contest 2025
       </h2>
 
@@ -85,7 +85,7 @@ export default function Leaderboard() {
       </div>
 
       {/* Winners Section */}
-      <h3 className="text-xl font-semibold text-center mb-4">
+      <h3 className="text-2xl font-semibold text-center mb-4">
         🏆 Top 3 Winners
       </h3>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
@@ -94,10 +94,10 @@ export default function Leaderboard() {
             key={i}
             className={`rounded-2xl shadow-lg p-6 text-center ${
               i === 0
-                ? "bg-[#fff] border-2 border-yellow-500 text-[#000]"
+                ? "bg-[rgba(229,9,20,0.9)]   text-[#fff]"
                 : i === 1
-                ? "bg-gray-200 border-2 border-gray-400 text-[#000]"
-                : "bg-orange-200 border-2 border-orange-400 text-[#000]"
+                ? "bg-[rgba(229,9,20,0.9)]   text-[#fff]"
+                : "bg-[rgba(229,9,20,0.9)]   text-[#fff]"
             }`}
           >
             {row[5] && (
@@ -108,23 +108,23 @@ export default function Leaderboard() {
               />
             )}
 
-            <h4 className="text-lg font-bold">
+            <h4 className="text-3xl font-bold">
               {i === 0
                 ? "🥇 1st Place"
                 : i === 1
                 ? "🥈 2nd Place"
                 : "🥉 3rd Place"}
             </h4>
-            <p className="mt-2 font-semibold">{row[1]}</p>
+            <h3 className="mt-2 font-semibold">{row[1]}</h3>
             <p className="italic text-sm">{row[2]}</p>
-            <p className="mt-2 text-lg font-bold">Score: {row[3]}</p>
+            <p className="mt-2 text-lg">Score: {row[3]}</p>
 
             {row[4] && (
               <a
                 href={row[4]}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-3 inline-block text-blue-600 underline"
+                className="bg-white text-black px-4 py-2 rounded-lg  hover:shadow disabled:opacity-50 mt-3 inline-block text-black-600"
               >
                 🎥 Watch Video
               </a>
@@ -134,14 +134,14 @@ export default function Leaderboard() {
       </div>
 
       {/* Top 10 Finalists */}
-      <h3 className="text-xl font-semibold text-center mb-4">
+      <h3 className="text-2xl font-semibold text-center mb-4">
         🏅 Top 10 Finalists
       </h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
         {top10.map((row, i) => (
           <div
             key={i}
-            className="border rounded-xl p-4 shadow-sm flex items-center justify-between"
+            className="grid grid-cols-1 border rounded-xl p-4 shadow-sm flex items-center justify-between"
           >
             <div>
               <p className="font-bold">
@@ -153,13 +153,16 @@ export default function Leaderboard() {
           </div>
         ))}
       </div>
-
+        
       {/* Audience Choice */}
-      <h3 className="text-xl font-semibold text-center mb-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
+      
+      {audienceChoice && (
+        <div className="rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 border border-white/10 
+                       bg-[rgba(255,255,255,0.03)] backdrop-blur shadow-lg sm:shadow-xl text-center">
+          <h3 className="text-xl font-semibold text-center mb-4">
         🗳️ Audience Choice Award
       </h3>
-      {audienceChoice && (
-        <div className="bg-green-100 border border-green-400 rounded-xl p-6 text-center shadow-md mb-10 text-[#000]">
           <p className="text-lg font-bold">{audienceChoice[1]}</p>
           <p className="italic">{audienceChoice[2]}</p>
           <p className="mt-2">👍 {audienceChoice[4]} Likes</p>
@@ -167,10 +170,12 @@ export default function Leaderboard() {
       )}
 
       {/* Jury Special Mention */}
-      <h3 className="text-xl font-semibold text-center mb-4">
+      
+      <div className="rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 border border-white/10 
+                       bg-[rgba(255,255,255,0.03)] backdrop-blur shadow-lg sm:shadow-xl text-center">
+        <h3 className="text-xl font-semibold text-center mb-4">
         🏅 Jury Special Mention
       </h3>
-      <div className="bg-purple-100 border border-purple-400 rounded-xl p-6 text-center shadow-md mb-10 text-[#000]">
         {juryMention ? (
           <>
             <p className="text-lg font-bold">{juryMention}</p>
@@ -180,13 +185,13 @@ export default function Leaderboard() {
           <p className="italic text-[#000]">Pending jury decision...</p>
         )}
       </div>
-
+</div>
       {/* Full Leaderboard */}
       <h3 className="text-xl font-semibold text-center mb-4">
         📊 Full Leaderboard
       </h3>
       <table className="w-full border border-gray-300 rounded-xl shadow-lg overflow-hidden">
-        <thead className="bg-blue-500 text-[#000]">
+        <thead className="bg-[rgba(229,9,20,0.9)] text-[#fff]">
           <tr>
             <th className="p-3 text-center">Rank</th>
             <th className="p-3 text-left">Name</th>

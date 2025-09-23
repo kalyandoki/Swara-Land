@@ -35,7 +35,9 @@ const images = [
 
 const MediaCarousel = () => {
   return (
-    <div className="max-w-8xl mx-auto pt-20 px-4">
+    
+    <div className="bg-[url('https://cdn.leonardo.ai/users/f8d3a6bd-777b-4c68-b656-bc781e71a67b/generations/adfe653e-564e-416e-98ca-48e7912adfc2/Leonardo_Phoenix_10_Black_background_with_glowing_red_gradient_3.jpg')] bg-cover max-w-8xl mx-auto pt-20 pb-20 px-4">
+      <div class="parallax"></div>
       <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-center text-[#fff] mb-8 font-roboto">
         Media Partners
       </h2>
@@ -61,7 +63,7 @@ const MediaCarousel = () => {
           >
             <div
               className="w-28 sm:w-44 md:w-40 lg:w-50 h-28 sm:h-25 md:h-25 lg:h-28 
-            rounded-4xl 
+            rounded-2xl 
               transition-transform duration-300 ease-in-out transform hover:scale-105 
               flex items-center justify-center bg-[#fff] md:p-4 shadow-lg"
             >
@@ -77,6 +79,7 @@ const MediaCarousel = () => {
 
       {/* Custom dot styling */}
       <style>
+        
         {`
           .carousel .control-dots {
             position: absolute;
@@ -101,6 +104,7 @@ const MediaCarousel = () => {
             transform: scale(1.3);
             background: #9c27b0 !important;
           }
+            
         `}
       </style>
     </div>
