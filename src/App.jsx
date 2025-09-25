@@ -388,7 +388,7 @@ const About = () => (
         <div className="relative w-[240px] sm:w-[280px] md:w-[240px] lg:w-[280px] xl:w-[340px] aspect-[9/16] rounded-2xl overflow-hidden shadow-2xl mx-auto">
           <iframe
             className="absolute inset-0 w-full h-full"
-            src="https://www.youtube.com/embed/oL4t2seryYM"
+            src="https://www.youtube.com/embed/MuY3oyfUZPQ"
             title="Swara Media Shorts"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
