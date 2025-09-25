@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import lanBg from "./assets/images/SMBG2.png"; //BG.jpeg.jpg;
+//import lanBg from "./assets/images/SMBG2.png"; //BG.jpeg.jpg;
+import lanBg from "./assets/images/banner.jpg"; //BG.jpeg.jpg;
 import top3 from "./assets/images/swara-t33.png";
 import final10 from "./assets/images/swara-t10.png";
 import allP3 from "./assets/images/swara-all3.png";
@@ -300,7 +301,7 @@ const Hero = () => {
       className="relative min-h-[98vh] flex items-center justify-center text-center px-4 sm:px-6 md:px-8"
       style={{
         width: "100%",
-        minHeight: "100vh",
+        minHeight: "115vh",
         background: `
     radial-gradient(1400px 600px at 70% -10%, ${BRAND.secondary}22, transparent),
     radial-gradient(860px 400px at 10% 110%, ${BRAND.primary}22, transparent),
@@ -319,58 +320,12 @@ const Hero = () => {
 
       <Container>
         <div className="text-center  md:mt-10 md:p-20 ">
-          {/* Title */}
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-extrabold tracking-tight text-white"
-          >
-             Swara Media Global Short Film Contest 2025
-          </motion.h1>
+          
 
-          {/* Subtitle */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1, duration: 0.6 }}
-            className="mt-3 sm:mt-4 text-sm sm:text-base md:text-md lg:text-xl xl:text-2xl text-white/80 max-w-3xl mx-auto leading-relaxed"
-          >
-            Show your acting, storytelling, or creative skills in a{" "}
-            <span className="font-semibold text-white">
-              3-minute portrait video
-            </span>{" "}
-            and win a chance to act in our upcoming web series!
-          </motion.p>
+          
+         
 
-          {/* Typing effect */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className="mt-6 text-lg sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-semibold h-8 sm:h-10 md:h-12"
-            style={{ color: BRAND.secondary }}
-          >
-            {typed}
-          </motion.div>
-
-          {/* CTA buttons */}
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
-            <a
-              href="#register"
-              className="px-4 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 rounded-xl sm:rounded-2xl font-semibold shadow-xl text-sm sm:text-base md:text-lg"
-              style={{ background: BRAND.primary, color: "white" }}
-            >
-              Register Now – ₹1999
-            </a>
-            <a
-              href="#rules"
-              className="px-4 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 rounded-xl sm:rounded-2xl font-semibold border text-sm sm:text-base md:text-lg"
-              style={{ borderColor: BRAND.secondary, color: BRAND.secondary }}
-            >
-              View Contest Rules
-            </a>
-          </div>
+          
 
           {/* Countdown */}
           <div

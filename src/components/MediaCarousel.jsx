@@ -73,6 +73,7 @@ const MediaCarousel = () => {
                 className="w-full h-full object-contain transition duration-300"
               />
             </div>
+            
           </div>
         ))}
       </Carousel>
@@ -108,6 +109,7 @@ const MediaCarousel = () => {
         `}
       </style>
     </div>
+    
   );
 };
 
