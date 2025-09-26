@@ -7,7 +7,7 @@ import allP3 from "./assets/images/swara-all3.png";
 import regBg from "./assets/images/RG-Img1.png";
 import regBg1 from "./assets/images/Rg11.png";
 import { FaWhatsapp } from "react-icons/fa";
-
+import ShortsCarousel from "./components/ShortsCarousel";
 import { Menu, X } from "lucide-react"; // for hamburger menu icons
 import { motion, useAnimation, useInView } from "framer-motion";
 import axios from "axios";
@@ -33,6 +33,9 @@ import {
 import CollectionSection from "./components/CollectionSection";
 import MediaCarousel from "./components/MediaCarousel";
 import Leaderboard from "./components/LeaderBoard";
+import RegistrationForm from "./components/RegistrationForm";
+import VideoForm from "./components/VideoForm";
+import UploadForm from "./components/UploadForm";
 
 /**
  * Swara Media – Global Portrait Contest 2025
@@ -320,13 +323,6 @@ const Hero = () => {
 
       <Container>
         <div className="text-center  md:mt-10 md:p-20 ">
-          
-
-          
-         
-
-          
-
           {/* Countdown */}
           <div
             className="mt-8 sm:mt-10 inline-flex flex-wrap items-center justify-center gap-2 sm:gap-3 rounded-xl sm:rounded-2xl px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base md:text-lg"
@@ -1199,9 +1195,13 @@ export default function SwaraLandingPage() {
         <Rewards />
         <MediaCarousel />
         <Register />
+        <RegistrationForm />
+        <VideoForm />
+        {/* <UploadForm /> */}
         <Leaderboard />
         <Rules />
         <FAQ />
+        <ShortsCarousel />
         <Contact />
       </main>
       <Footer />
