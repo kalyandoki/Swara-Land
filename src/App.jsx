@@ -324,8 +324,21 @@ const Hero = () => {
       <Container>
         <div className="text-center  md:mt-10 md:p-20 ">
           {/* Countdown */}
+          {/* <div
+            className="mt-8 sm:mt-10 flex items-center justify-center gap-2 sm:gap-3 rounded-xl sm:rounded-2xl px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base md:text-lg"
+            style={{ background: BRAND.primary, color: "white" }}
+          >
+            <Clock size={16} />
+            <span className="text-[#fff]">Registration Closes In</span>
+            <strong className="tracking-wider">
+              {days}d : {hours}h : {minutes}m : {seconds}s
+            </strong>
+          </div> */}
           <div
-            className="mt-8 sm:mt-10 inline-flex flex-wrap items-center justify-center gap-2 sm:gap-3 rounded-xl sm:rounded-2xl px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base md:text-lg"
+            className="absolute bottom-10 left-1/2 -translate-x-1/2 mt-8 sm:mt-10 
+             flex items-center justify-center gap-2 sm:gap-3 
+             rounded-xl sm:rounded-2xl px-4 sm:px-6 py-2 sm:py-3 
+             text-sm sm:text-base md:text-lg"
             style={{ background: BRAND.primary, color: "white" }}
           >
             <Clock size={16} />
