@@ -158,12 +158,13 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import video1 from "../assets/videos/sm-v.mp4";
+import ReactPlayer from "react-player";
 
 const mockups = [
   {
     shadow:
       "https://framerusercontent.com/images/a9gc2DlbpkkZlsKZRlBfRklZyY.png",
-    video: video1,
+    video: "https://www.youtube.com/embed/Cb-d6PhkhBY",
     border:
       "https://framerusercontent.com/images/H2xOBKfRU2M06U4j9LF5WN8z6pA.png",
     offset: "translate-y-24",
@@ -171,7 +172,7 @@ const mockups = [
   {
     shadow:
       "https://framerusercontent.com/images/a9gc2DlbpkkZlsKZRlBfRklZyY.png",
-    video: video1,
+    video: "https://www.youtube.com/embed/iZUlNsDbbkU",
     border:
       "https://framerusercontent.com/images/H2xOBKfRU2M06U4j9LF5WN8z6pA.png",
     offset: "translate-y-10",
@@ -179,7 +180,7 @@ const mockups = [
   {
     shadow:
       "https://framerusercontent.com/images/a9gc2DlbpkkZlsKZRlBfRklZyY.png",
-    video: video1,
+    video: "https://www.youtube.com/embed/ANdL75NRtro",
     border:
       "https://framerusercontent.com/images/H2xOBKfRU2M06U4j9LF5WN8z6pA.png",
     sticky: true, // ✅ center one stays fixed
@@ -187,7 +188,7 @@ const mockups = [
   {
     shadow:
       "https://framerusercontent.com/images/a9gc2DlbpkkZlsKZRlBfRklZyY.png",
-    video: video1,
+    video: "https://www.youtube.com/embed/s-aCf_5aKds",
     border:
       "https://framerusercontent.com/images/H2xOBKfRU2M06U4j9LF5WN8z6pA.png",
     offset: "translate-y-10",
@@ -195,7 +196,7 @@ const mockups = [
   {
     shadow:
       "https://framerusercontent.com/images/a9gc2DlbpkkZlsKZRlBfRklZyY.png",
-    video: video1,
+    video: "https://www.youtube.com/embed/Ong20xZ7FPQ",
     border:
       "https://framerusercontent.com/images/H2xOBKfRU2M06U4j9LF5WN8z6pA.png",
     offset: "translate-y-24",
@@ -283,7 +284,7 @@ const SectionWithScrollAction = () => {
               className="absolute inset-0 w-[85%] sm:w-[90%] h-[75%] sm:h-[80%] mx-auto my-auto 
                 overflow-hidden rounded-[18px] sm:rounded-[20px] md:rounded-[22px] flex items-center justify-center"
             >
-              <video
+              {/* <video
                 ref={(el) => (videoRefs.current[i] = el)}
                 src={item.video}
                 className="w-full h-full object-cover"
@@ -291,6 +292,18 @@ const SectionWithScrollAction = () => {
                 muted
                 preload="metadata"
                 onPlay={() => handlePlay(i)} // ✅ pause others when this plays
+              /> */}
+              <iframe
+                ref={(el) => (videoRefs.current[i] = el)}
+                src={item.video}
+                className="w-full h-full object-cover"
+                controls
+                muted
+                preload="metadata"
+                onPlay={() => handlePlay(i)}
+                title="Swara Media Shorts"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
               />
             </div>
 
